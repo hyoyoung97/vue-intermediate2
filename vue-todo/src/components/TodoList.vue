@@ -2,7 +2,7 @@
   <div>
     <ul>
       <!--:key="todoItem" -> vscode에서는 추가를 권함-->
-      <li v-for="(todoItem, index) in todoItems" :key="todoItem.item" class="shadow">
+      <li v-for="(todoItem, index) in propsdata" :key="todoItem.item" class="shadow">
         <i class="checkBtn fa-solid fa-check" :class="{checkBtnCompleted: todoItem.completed}" @click="toggleComplete(todoItem, index)"></i>
         <!--속성값으로 접근-->
         <span :class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
@@ -16,21 +16,7 @@
 
 <script>
 export default {
-  data: function () {
-    return{
-      todoItems: []
-    }
-  },
-  created: function () {
-    if (localStorage.length > 0) {
-      for (var i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i) !== 'loglevel:webpack-dev-server') {
-          console.log(JSON.parse(localStorage.getItem(localStorage.key(i))));
-          this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
-        }
-      }
-    }
-  },
+  props: ['propsdata'],
   methods: {
     removeTodo: function (todoItem, index) {
       localStorage.removeItem(todoItem);
