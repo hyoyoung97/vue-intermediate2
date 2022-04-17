@@ -16,10 +16,11 @@ export default {
     }
   },
   methods: {
+    // addTodo - 1
     addTodo: function () {
       if (this.newTodoItem !== '') {
-        var obj = {completed: false, item: this.newTodoItem};
-        localStorage.setItem(this.newTodoItem, JSON.stringify(obj));
+        // addTodo - 2 (상위 App.vue 의 todo-input -> addTodoItem 을 작동시킴
+        this.$emit('addTodoItem', this.newTodoItem);
         this.clearInput();
       }
     }

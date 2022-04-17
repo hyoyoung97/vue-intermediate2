@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <todo-header></todo-header>
-    <todo-input></todo-input>
-    <todo-list v-bind:propsdata="todoItems"></todo-list>
+    <!--addTodo - 3 (addTodoItem => addOneItem)-->
+    <todo-input @addTodoItem ="addOneItem"></todo-input>
+    <todo-list :propsdata="todoItems"></todo-list>
     <todo-footer></todo-footer>
   </div>
 </template>
@@ -20,8 +21,14 @@ export default {
       todoItems: []
     }
   },
-  methods: function () {
-
+  methods: {
+    // addTodo - 4 (하위에서 $emit 으로 올려보낸 newTodoItem 를 받음)
+    addOneItem: function (newTodoItem) {
+      var obj = {completed: false, item: newTodoItem};
+      localStorage.setItem(newTodoItem, JSON.stringify(obj));
+      // App.vue 의 상위 todoItems 데이터와 연결
+      this.todoItems.push(obj);
+    }
   },
   created: function () {
     if (localStorage.length > 0) {
