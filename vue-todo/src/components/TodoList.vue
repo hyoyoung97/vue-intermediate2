@@ -2,9 +2,9 @@
   <div>
     <ul>
       <!--:key="todoItem" -> vscode에서는 추가를 권함-->
-      <li v-for="todoItem in todoItems" :key="todoItem" class="shadow">
-        {{todoItem}}
-        <span class="removeBtn" @click="removeTodo">
+      <li v-for="(todoItem, index) in todoItems" :key="todoItem" class="shadow">
+        {{ todoItem }}
+        <span class="removeBtn" @click="removeTodo(todoItem, index)">
           <i class="fa-solid fa-trash-can"></i>
         </span>
       </li>
@@ -22,14 +22,17 @@ export default {
   created: function () {
     if (localStorage.length > 0) {
       for (var i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i) !== 'loglevel:webpack-dev-server')
-        this.todoItems.push(localStorage.key(i))
+        if (localStorage.key(i) !== 'loglevel:webpack-dev-server') {
+          //console.log(localStorage.key(i));
+          this.todoItems.push(localStorage.key(i));
+        }
       }
     }
   },
-  methods: function () {
-    removeTodo: {
-
+  methods: {
+    removeTodo: function (todoItem, index) {
+      localStorage.removeItem(todoItem);
+      this.todoItems.splice(index, 1);  //splice -> (특정인덱스, 개수)특정인텍스에서 개수만큼 지울 수 있음
     }
   }
 }
