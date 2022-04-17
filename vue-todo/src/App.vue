@@ -20,6 +20,9 @@ export default {
       todoItems: []
     }
   },
+  methods: function () {
+
+  },
   created: function () {
     if (localStorage.length > 0) {
       for (var i = 0; i < localStorage.length; i++) {
