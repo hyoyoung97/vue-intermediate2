@@ -2,8 +2,10 @@
   <div>
     <ul>
       <!--:key="todoItem" -> vscode에서는 추가를 권함-->
-      <li v-for="(todoItem, index) in todoItems" :key="todoItem" class="shadow">
-        {{ todoItem }}
+      <li v-for="(todoItem, index) in todoItems" :key="todoItem.item" class="shadow">
+        <i class="checkBtn fa-solid fa-check" :class="{checkBtnCompleted: todoItem.completed}" @click="toggleComplete(todoItem, index)"></i>
+        <!--속성값으로 접근-->
+        <span :class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
         <span class="removeBtn" @click="removeTodo(todoItem, index)">
           <i class="fa-solid fa-trash-can"></i>
         </span>
@@ -23,8 +25,8 @@ export default {
     if (localStorage.length > 0) {
       for (var i = 0; i < localStorage.length; i++) {
         if (localStorage.key(i) !== 'loglevel:webpack-dev-server') {
-          //console.log(localStorage.key(i));
-          this.todoItems.push(localStorage.key(i));
+          console.log(JSON.parse(localStorage.getItem(localStorage.key(i))));
+          this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
         }
       }
     }
@@ -33,6 +35,12 @@ export default {
     removeTodo: function (todoItem, index) {
       localStorage.removeItem(todoItem);
       this.todoItems.splice(index, 1);  //splice -> (특정인덱스, 개수)특정인텍스에서 개수만큼 지울 수 있음
+    },
+    toggleComplete: function (todoItem, index) {
+      todoItem.completed = !todoItem.completed;
+      // localStorage의 데이터를 갱신
+      localStorage.removeItem(todoItem.item); // 자동업데이트 api가 없기 때문에 지워주고 다시 세팅해준다.
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem)); // 바뀐 completed로 저장
     }
   }
 }
@@ -60,7 +68,7 @@ li {
   color: #62acde;
   margin-right: 5px;
 }
-.checkBtnComleted {
+.checkBtnCompleted {
   color: #b3adad;
 }
 .textCompleted {
