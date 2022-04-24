@@ -22,7 +22,7 @@
 import modal from "./common/Modal";
 
 export default {
-  data: function () {
+  data() {
     return {
       newTodoItem: "",
       showModal: false
@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     // addTodo - 1
-    addTodo: function () {
+    addTodo() {
       if (this.newTodoItem !== '') {
         // addTodo - 2 (상위 App.vue 의 todo-input -> addTodoItem 을 작동시킴
         this.$emit('addTodoItem', this.newTodoItem);
@@ -40,12 +40,12 @@ export default {
       }
     }
     ,
-    clearInput: function () {
+    clearInput() {
       this.newTodoItem = '';
     }
   },
   components: {
-    modal: modal,
+    modal,
   }
 }
 </script>
