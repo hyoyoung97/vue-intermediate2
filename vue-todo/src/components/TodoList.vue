@@ -1,6 +1,9 @@
 <template>
   <div>
-    <ul>
+
+    <!-- tag 로 인해 'transition-group' -> 'ul' 로 변경됨 -->
+    <!-- name 으로 트랜지션css 등록함 -->
+    <transition-group name="list" tag="ul">
       <!--:key="todoItem" -> vscode에서는 추가를 권함-->
       <li v-for="(todoItem, index) in propsdata" :key="todoItem.item" class="shadow">
         <i class="checkBtn fa-solid fa-check" :class="{checkBtnCompleted: todoItem.completed}"
@@ -11,7 +14,7 @@
           <i class="fa-solid fa-trash-can"></i>
         </span>
       </li>
-    </ul>
+    </transition-group>
   </div>
 </template>
 
@@ -63,5 +66,15 @@ li {
 .removeBtn {
   margin-left: auto;
   color: #de4343;
+}
+/* 리스트 아이템 트랜지션 효과 */
+.list-enter-active, .list-leave-active {
+  /* 1s -> 1초 */
+  transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  /* translateY(30px) -> Y축으로 30px 이동  */
+  transform: translateY(30px);
 }
 </style>
