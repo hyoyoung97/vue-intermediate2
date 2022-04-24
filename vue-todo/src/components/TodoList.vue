@@ -4,7 +4,7 @@
     <!-- name 으로 트랜지션css 등록함 -->
     <transition-group name="list" tag="ul">
       <!--:key="todoItem" -> vscode에서는 추가를 권함-->
-      <li v-for="(todoItem, index) in this.$store.state.todoItems" :key="todoItem.item" class="shadow">
+      <li v-for="(todoItem, index) in this.todoItems" :key="todoItem.item" class="shadow">
         <i class="checkBtn fa-solid fa-check" :class="{checkBtnCompleted: todoItem.completed}"
            @click="toggleComplete(todoItem, index)"></i>
         <!--속성값으로 접근-->
@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   methods: {
     removeTodo(todoItem, index) {
@@ -28,6 +30,11 @@ export default {
       // this.$emit('toggleItem', todoItem, index);
       this.$store.commit('toggleOneItem', {todoItem, index});
     }
+  },
+  computed: {
+    ...mapGetters({
+      todoItems: 'storedTodoItems',
+    })
   }
 }
 </script>
