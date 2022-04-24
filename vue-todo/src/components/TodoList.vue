@@ -6,10 +6,10 @@
       <!--:key="todoItem" -> vscode에서는 추가를 권함-->
       <li v-for="(todoItem, index) in this.todoItems" :key="todoItem.item" class="shadow">
         <i class="checkBtn fa-solid fa-check" :class="{checkBtnCompleted: todoItem.completed}"
-           @click="toggleComplete(todoItem, index)"></i>
+           @click="toggleComplete({todoItem, index})"></i>
         <!--속성값으로 접근-->
         <span :class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
-        <span class="removeBtn" @click="removeTodo(todoItem, index)">
+        <span class="removeBtn" @click="removeTodo({todoItem, index})">
           <i class="fa-solid fa-trash-can"></i>
         </span>
       </li>
@@ -18,18 +18,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   methods: {
-    removeTodo(todoItem, index) {
-      // this.$emit('removeItem', todoItem, index);
-      this.$store.commit('removeOneItem', {todoItem, index});
-      },
-    toggleComplete(todoItem, index) {
-      // this.$emit('toggleItem', todoItem, index);
-      this.$store.commit('toggleOneItem', {todoItem, index});
-    }
+    ...mapMutations({
+      removeTodo: 'removeOneItem',
+      toggleComplete: 'toggleOneItem'
+    })
   },
   computed: {
     ...mapGetters({
