@@ -7,11 +7,13 @@
     </span>
 
     <modal v-if="showModal" @close="showModal = false">
-      <!--
-    you can use custom content here to overwrite
-    default content
-  -->
-      <h3 slot="header">custom header</h3>
+      <h3 slot="header">
+        경고!
+        <i class="closeModalBtn fa-solid fa-xmark" @click="showModal = false"></i>
+      </h3>
+      <h3 slot="body">
+        아무것도 입력하지 않았습니다.
+      </h3>
     </modal>
   </div>
 </template>
@@ -23,7 +25,7 @@ export default {
   data: function () {
     return {
       newTodoItem: "",
-      showModal:false
+      showModal: false
     }
   },
   methods: {
@@ -33,6 +35,8 @@ export default {
         // addTodo - 2 (상위 App.vue 의 todo-input -> addTodoItem 을 작동시킴
         this.$emit('addTodoItem', this.newTodoItem);
         this.clearInput();
+      } else {
+        this.showModal = true;
       }
     }
     ,
@@ -74,5 +78,8 @@ input:focus {
 .addBtn {
   color: white;
   vertical-align: middle;
+}
+.closeModalBtn {
+  color: #42b983;
 }
 </style>
