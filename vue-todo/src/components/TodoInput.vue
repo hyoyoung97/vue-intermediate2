@@ -5,14 +5,25 @@
     <span class="addContainer" @click="addTodo">
       <i class="fa-solid fa-plus addBtn"></i>
     </span>
+
+    <modal v-if="showModal" @close="showModal = false">
+      <!--
+    you can use custom content here to overwrite
+    default content
+  -->
+      <h3 slot="header">custom header</h3>
+    </modal>
   </div>
 </template>
 
 <script>
+import modal from "./common/Modal";
+
 export default {
   data: function () {
     return {
-      newTodoItem: ""
+      newTodoItem: "",
+      showModal:false
     }
   },
   methods: {
@@ -28,6 +39,9 @@ export default {
     clearInput: function () {
       this.newTodoItem = '';
     }
+  },
+  components: {
+    modal: modal,
   }
 }
 </script>
