@@ -32,8 +32,9 @@ export default {
     // addTodo - 1
     addTodo() {
       if (this.newTodoItem !== '') {
-        // addTodo - 2 (상위 App.vue 의 todo-input -> addTodoItem 을 작동시킴
-        this.$emit('addTodoItem', this.newTodoItem);
+        // this.$emit('addTodoItem', this.newTodoItem);
+        const text = this.newTodoItem.trim();
+        this.$store.commit('addOneItem', text)
         this.clearInput();
       } else {
         this.showModal = true;

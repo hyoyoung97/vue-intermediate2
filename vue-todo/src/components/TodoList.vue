@@ -1,11 +1,10 @@
 <template>
   <div>
-
     <!-- tag 로 인해 'transition-group' -> 'ul' 로 변경됨 -->
     <!-- name 으로 트랜지션css 등록함 -->
     <transition-group name="list" tag="ul">
       <!--:key="todoItem" -> vscode에서는 추가를 권함-->
-      <li v-for="(todoItem, index) in propsdata" :key="todoItem.item" class="shadow">
+      <li v-for="(todoItem, index) in this.$store.state.todoItems" :key="todoItem.item" class="shadow">
         <i class="checkBtn fa-solid fa-check" :class="{checkBtnCompleted: todoItem.completed}"
            @click="toggleComplete(todoItem, index)"></i>
         <!--속성값으로 접근-->
@@ -20,15 +19,14 @@
 
 <script>
 export default {
-  props: ['propsdata'],
   methods: {
-    // removeTodo.1
     removeTodo(todoItem, index) {
-      // removeTodo.2 (removeTodo -> emit.removeItem)
-      this.$emit('removeItem', todoItem, index);
+      // this.$emit('removeItem', todoItem, index);
+      this.$store.commit('removeOneItem', {todoItem, index});
       },
     toggleComplete(todoItem, index) {
-      this.$emit('toggleItem', todoItem, index);
+      // this.$emit('toggleItem', todoItem, index);
+      this.$store.commit('toggleOneItem', {todoItem, index});
     }
   }
 }
