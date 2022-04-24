@@ -3,7 +3,8 @@
     <ul>
       <!--:key="todoItem" -> vscode에서는 추가를 권함-->
       <li v-for="(todoItem, index) in propsdata" :key="todoItem.item" class="shadow">
-        <i class="checkBtn fa-solid fa-check" :class="{checkBtnCompleted: todoItem.completed}" @click="toggleComplete(todoItem, index)"></i>
+        <i class="checkBtn fa-solid fa-check" :class="{checkBtnCompleted: todoItem.completed}"
+           @click="toggleComplete(todoItem, index)"></i>
         <!--속성값으로 접근-->
         <span :class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
         <span class="removeBtn" @click="removeTodo(todoItem, index)">
@@ -24,10 +25,7 @@ export default {
       this.$emit('removeItem', todoItem, index);
       },
     toggleComplete: function (todoItem, index) {
-      todoItem.completed = !todoItem.completed;
-      // localStorage의 데이터를 갱신
-      localStorage.removeItem(todoItem.item); // 자동업데이트 api가 없기 때문에 지워주고 다시 세팅해준다.
-      localStorage.setItem(todoItem.item, JSON.stringify(todoItem)); // 바뀐 completed로 저장
+      this.$emit('toggleItem', todoItem, index);
     }
   }
 }

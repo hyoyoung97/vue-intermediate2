@@ -4,8 +4,8 @@
     <!--addTodo - 3 (addTodoItem => addOneItem)-->
     <todo-input @addTodoItem ="addOneItem"></todo-input>
     <!--removeTodo.3 (emit(removeItem) -> removeOneItem)-->
-    <todo-list :propsdata="todoItems" v-on:removeItem="removeOneItem"></todo-list>
-    <todo-footer></todo-footer>
+    <todo-list :propsdata="todoItems" v-on:removeItem="removeOneItem" v-on:toggleItem="toggleOneItem"></todo-list>
+    <todo-footer v-on:clearAll="clearAllItems"></todo-footer>
   </div>
 </template>
 
@@ -31,10 +31,19 @@ export default {
       this.todoItems.push(obj);
     },
     // removeTodo.4 (emit(removeItem) 의 param)
-    removeOneItem : function (todoItem, index) {
+    removeOneItem: function (todoItem, index) {
       localStorage.removeItem(todoItem.item); // item 이 key 값임.
       this.todoItems.splice(index, 1);  //splice -> (특정인덱스, 개수)특정인텍스에서 개수만큼 지울 수 있음
-
+    },
+    toggleOneItem: function (todoItem, index) {
+      this.todoItems[index].completed = !this.todoItems[index].completed;
+      localStorage.removeItem(todoItem.item); // 자동업데이트 api가 없기 때문에 지워주고 다시 세팅해준다.
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem)); // 바뀐 completed로 저장
+    },
+    clearAllItems: function () {
+      localStorage.clear();
+      // 화면변경
+      this.todoItems = [];
     }
   },
   created: function () {
