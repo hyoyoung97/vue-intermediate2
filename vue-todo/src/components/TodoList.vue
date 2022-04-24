@@ -18,10 +18,11 @@
 export default {
   props: ['propsdata'],
   methods: {
+    // removeTodo.1
     removeTodo: function (todoItem, index) {
-      localStorage.removeItem(todoItem);
-      this.todoItems.splice(index, 1);  //splice -> (특정인덱스, 개수)특정인텍스에서 개수만큼 지울 수 있음
-    },
+      // removeTodo.2 (removeTodo -> emit.removeItem)
+      this.$emit('removeItem', todoItem, index);
+      },
     toggleComplete: function (todoItem, index) {
       todoItem.completed = !todoItem.completed;
       // localStorage의 데이터를 갱신

@@ -3,7 +3,8 @@
     <todo-header></todo-header>
     <!--addTodo - 3 (addTodoItem => addOneItem)-->
     <todo-input @addTodoItem ="addOneItem"></todo-input>
-    <todo-list :propsdata="todoItems"></todo-list>
+    <!--removeTodo.3 (emit(removeItem) -> removeOneItem)-->
+    <todo-list :propsdata="todoItems" v-on:removeItem="removeOneItem"></todo-list>
     <todo-footer></todo-footer>
   </div>
 </template>
@@ -28,6 +29,12 @@ export default {
       localStorage.setItem(newTodoItem, JSON.stringify(obj));
       // App.vue 의 상위 todoItems 데이터와 연결
       this.todoItems.push(obj);
+    },
+    // removeTodo.4 (emit(removeItem) 의 param)
+    removeOneItem : function (todoItem, index) {
+      localStorage.removeItem(todoItem.item); // item 이 key 값임.
+      this.todoItems.splice(index, 1);  //splice -> (특정인덱스, 개수)특정인텍스에서 개수만큼 지울 수 있음
+
     }
   },
   created: function () {
